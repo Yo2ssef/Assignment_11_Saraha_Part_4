@@ -53,12 +53,12 @@ router.post("/login", validation(loginSchema), async (req, res, next) => {
     })
 })
 
-router.post("/send-2fa-code", authentication(), validation(enable2faSchema), async (req, res, next) => {
+router.post("/send-2fa-code", validation(enable2faSchema), authentication(), async (req, res, next) => {
     const data = await send2faEnableCode(req.user, req.validated.body)
     successResponse({ res, message: "Successfully sent 2FA code." })
 })
 
-router.post("/confirm-2fa-code", authentication(), validation(confirm2faSchema), async (req, res, next) => {
+router.post("/confirm-2fa-code", validation(confirm2faSchema), authentication(), async (req, res, next) => {
     const data = await confirm2faCode(req.user, req.validated.body)
     successResponse({ res, status: 201, message: "Successfully confirmed 2FA code." })
 })
